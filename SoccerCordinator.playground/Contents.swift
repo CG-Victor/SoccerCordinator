@@ -149,22 +149,17 @@ var experiencedPlayers: [[String:String]] = []
 var inexperiencedPlayers: [[String:String]] = []
 
 
-//sorting player with exp and no exp into player's array.
+//Sorting the players with experience and no experience in the players array
 for player in players {
     
 if player["Soccer Exp"] == "YES" {
     experiencedPlayers.append(player)
     
-    
-} else if player["Soccer Exp"] == "NO" {
+ } else if player["Soccer Exp"] == "NO" {
     inexperiencedPlayers.append(player)
     }
     
 }
-
-
-
-
 
 
 //Sorting the height of players
@@ -189,11 +184,8 @@ func sortPlayers(array: [[String:String]]) {
         if player["Soccer Exp"] == "YES" {
             
             switch (index % 6) {
-                
             case 1, 0: teamSharks.append(player)
-                
             case 2, 5: teamDragons.append(player)
-                
             case 3, 4: teamRaptors.append(player)
 
           
@@ -205,11 +197,8 @@ func sortPlayers(array: [[String:String]]) {
         }else if player["Soccer Exp"] == "NO" {
             
             switch (index2 % 6) {
-                
             case 1, 0: teamRaptors.append(player)
-                
             case 2, 5: teamDragons.append(player)
-                
             case 3, 4: teamSharks.append(player)
                 
             default: break
@@ -222,7 +211,7 @@ func sortPlayers(array: [[String:String]]) {
 
 sortPlayers(array: players)
 
-
+//Presenting the team roster
 teamSharks
 teamDragons
 teamRaptors
@@ -241,6 +230,8 @@ func averageHeight(team: [[String:String]]) -> Double{
     return totalHeight / Double(team.count)
 }
 
+
+//Print to show the average height for each team on the console
 print("The average for Team Dragons is \(averageHeight(team: teamDragons))")
 print("The average for Team Raptors is \(averageHeight(team: teamRaptors))")
 print("The average for Team Sharks is \(averageHeight(team: teamSharks))")
@@ -254,11 +245,9 @@ func differenceBetweenTeams(team1: Double, team2: Double) -> Bool {
     height = team1 - team2
     
     if height > 1.5 || height < -1.5 {
-        
         inRange = false
         
     }else {
-        
         inRange = true
     }
     
