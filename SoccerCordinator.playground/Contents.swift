@@ -1,6 +1,3 @@
-
-import UIKit
-
 //First store each player in a dictionary collection.
 let joeSmith = ["Name": "Joe Smith",
                 "Height(inches)": "42",
@@ -87,7 +84,7 @@ let chloeAlaska = ["Name": "Chloe Alaska",
 
 
 let arnoldWillis = ["Name": "Arnold Willis",
-                    "Height(inches)": "44",
+                    "Height(inches)": "43",
                     "Soccer Exp": "NO",
                     "Guaridan Name(s)": "Claire Willis"]
 
@@ -133,7 +130,7 @@ let players = [joeSmith,
 
 
 
-//declaring time schedule for the letters
+//Time schedule for the letters
 let teamSharksInfo = "March 17, 3pm"
 let teamDragonsInfo = "March 17, 1pm"
 let teamRaptorsInfo = "March 18, 1pm"
@@ -147,74 +144,145 @@ var teamDragons: [[String:String]] = []
 var teamRaptors: [[String:String]] = []
 
 
+//seperating with exp or no exp
+var experiencedPlayers: [[String:String]] = []
+var inexperiencedPlayers: [[String:String]] = []
 
-//For extra credit use
-var teamDragonsData: [[String:String]] = []
-var teamRaptorsData: [[String:String]] = []
-var teamSharksData: [[String:String]] = []
+
+//sorting player with exp and no exp into player's array.
+for player in players {
+    
+if player["Soccer Exp"] == "YES" {
+    experiencedPlayers.append(player)
+    
+    
+} else if player["Soccer Exp"] == "NO" {
+    inexperiencedPlayers.append(player)
+    }
+    
+}
+
+
+
+
 
 
 //Sorting the height of players
-
 var playersSortedHeight: [[String: String]]
 
 playersSortedHeight = players.sorted { $0["Height(inches)"]! < $1 ["Height(inches)"]! }
 
 
+//At first, the individual players are split into 2 groups, 1 with exp, and the other with no experience
+//And then I sorted the height for both of them
 
-//Assessing player experience and seperating the ones with experience and inexperience
-for experiencedPlayer in players{
+//And now I'm creating a function to sort the players into 3 teams
+
+func sortPlayers(array: [[String:String]]) {
     
-    if experiencedPlayer["Soccer Exp"] == "YES" {
-        if teamSharks.count < teamDragons.count {
-            teamSharks.append(experiencedPlayer)
-        } else if teamDragons.count < teamRaptors.count {
-            teamDragons.append(experiencedPlayer)
-        } else {
-            teamRaptors.append(experiencedPlayer)
+    var index = 1
+    var index2 = 1
+    
+  
+    for player in playersSortedHeight {
+        
+        if player["Soccer Exp"] == "YES" {
+            
+            switch (index % 6) {
+                
+            case 1, 0: teamSharks.append(player)
+                
+            case 2, 5: teamDragons.append(player)
+                
+            case 3, 4: teamRaptors.append(player)
+
+          
+            default: break
+            }
+            
+            index += 1
+            
+        }else if player["Soccer Exp"] == "NO" {
+            
+            switch (index2 % 6) {
+                
+            case 1, 0: teamRaptors.append(player)
+                
+            case 2, 5: teamDragons.append(player)
+                
+            case 3, 4: teamSharks.append(player)
+                
+            default: break
+            }
+            
+            index2 += 1
         }
     }
 }
 
-for inexperiencedPlayer in players{
+sortPlayers(array: players)
+
+
+teamSharks
+teamDragons
+teamRaptors
+
+
+//Extra Credit: Calculate the average height of a team
+func averageHeight(team: [[String:String]]) -> Double{
     
-    if inexperiencedPlayer["Soccer Exp"] == "NO" {
-        if teamSharks.count < teamDragons.count {
-            teamSharks.append(inexperiencedPlayer)
-        } else if teamDragons.count < teamRaptors.count {
-            teamDragons.append(inexperiencedPlayer)
-        } else {
-            teamRaptors.append(inexperiencedPlayer)
-        }
+    var totalHeight = 0.0
+    
+    for player in team {
+        
+        totalHeight += Double(player["Height(inches)"]!)!
     }
+    
+    return totalHeight / Double(team.count)
+}
+
+print("The average for Team Dragons is \(averageHeight(team: teamDragons))")
+print("The average for Team Raptors is \(averageHeight(team: teamRaptors))")
+print("The average for Team Sharks is \(averageHeight(team: teamSharks))")
+
+//Checks the height difference bettween two teams
+func differenceBetweenTeams(team1: Double, team2: Double) -> Bool {
+    
+    var height = 0.0
+    var inRange = false
+    
+    height = team1 - team2
+    
+    if height > 1.5 || height < -1.5 {
+        
+        inRange = false
+        
+    }else {
+        
+        inRange = true
+    }
+    
+    return inRange
 }
 
 
-//Executing the code
-print(teamSharks)
-print(teamDragons)
-print(teamRaptors)
+
+differenceBetweenTeams(team1: averageHeight(team: teamDragons), team2: averageHeight(team: teamRaptors))
+differenceBetweenTeams(team1: averageHeight(team: teamDragons), team2: averageHeight(team: teamSharks))
+differenceBetweenTeams(team1: averageHeight(team: teamRaptors), team2: averageHeight(team: teamSharks))
 
 
 
 //Letters for the Parents and Guardians
-
 for player in teamSharks {
-    print("Congratulations \(player["Guaridan Name(s)"]!). Your child \(player["Name"]!) has soccer player for Team Sharks. The practice begins at \(teamSharksInfo). We are looking for to have you and your child play this season. Thank you")
+    print("Congratulations \(player["Guaridan Name(s)"]!). Your child \(player["Name"]!) has soccer player for Team Sharks. The practice begins at \(teamSharksInfo). We are looking forward to have you and your child be part of this season. Thank you")
 }
-
 for player in teamDragons {
-    print("Congratulations \(player["Guaridan Name(s)"]!). Your child \(player["Name"]!) has soccer player for Team Dragons. The practice begins at \(teamDragonsInfo). We are looking for to have you and your child play this season. Thank you")
+    print("Congratulations \(player["Guaridan Name(s)"]!). Your child \(player["Name"]!) has soccer player for Team Dragons. The practice begins at \(teamDragonsInfo). We are looking forward to have you and your child be part of this season. Thank you")
 }
-
-
 for player in teamRaptors {
-    print("Congratulations \(player["Guaridan Name(s)"]!). Your child \(player["Name"]!) has soccer player for Team Raptors. The practice begins at \(teamRaptorsInfo). We are looking for to have you and your child play this season. Thank you")
+    print("Congratulations \(player["Guaridan Name(s)"]!). Your child \(player["Name"]!) has soccer player for Team Raptors. The practice begins at \(teamRaptorsInfo). We are looking forward to have you and your child be part of this season. Thank you")
+    
+    
+    
 }
-
-
-
-
-
-
-
